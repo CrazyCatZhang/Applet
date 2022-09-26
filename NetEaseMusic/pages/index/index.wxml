@@ -1,0 +1,8 @@
+<!--pages/index/index.wxml-->
+<view class="indexContainer">
+	<image class="avatarUrl" src="/static/images/nvsheng.jpg"></image>
+	<text class="username">CatZhang</text>
+	<view class="goStudy">
+		<text>Hello World!!!</text>
+	</view>
+</view>
