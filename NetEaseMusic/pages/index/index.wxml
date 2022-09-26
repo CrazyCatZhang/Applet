@@ -2,7 +2,7 @@
 <view class="indexContainer">
     <image class="avatarUrl" src="/static/images/nvsheng.jpg"></image>
     <text class="username">{{msg}}</text>
-    <view class="goStudy">
+    <view class="goStudy" bindtap="toLogs">
         <text>Hello World!!!</text>
     </view>
 </view>

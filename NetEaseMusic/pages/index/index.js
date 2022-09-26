@@ -8,11 +8,17 @@ Page({
         msg: 'CatZhang'
     },
 
+    toLogs() {
+        wx.navigateTo({
+            url: '/pages/logs/logs'
+        })
+    },
+
     /**
      * Lifecycle function--Called when page load
      */
     onLoad(options) {
-        
+
     },
 
     /**
