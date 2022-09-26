@@ -4,13 +4,15 @@ Page({
     /**
      * Page initial data
      */
-    data: {},
+    data: {
+        msg: 'CatZhang'
+    },
 
     /**
      * Lifecycle function--Called when page load
      */
     onLoad(options) {
-
+        
     },
 
     /**
