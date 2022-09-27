@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#d43c33",
+    "navigationBarTextStyle": "white",
+    "navigationBarTitleText": "NetEaseMusic"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
