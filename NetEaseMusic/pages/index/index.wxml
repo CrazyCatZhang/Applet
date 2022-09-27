@@ -1,7 +1,8 @@
 <!--pages/index/index.wxml-->
 <view class="indexContainer">
-    <image class="avatarUrl" src="/static/images/nvsheng.jpg"></image>
-    <text class="username">{{msg}}</text>
+    <image wx:if="{{userInfo.avatarUrl}}" class="avatarUrl" src="{{userInfo.avatarUrl}}"></image>
+    <button wx:else bindtap="getUserProfile">获取用户信息</button>
+    <text class="username">{{userInfo.nickName}}</text>
     <view class="goStudy" bindtap="toLogs">
         <text>Hello World!!!</text>
     </view>
