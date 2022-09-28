@@ -1,6 +1,6 @@
 import config from './config.js'
 
-export default (url, data = {realIP: '192.168.2.124'}, method = 'GET') => {
+export default (url, data = {}, method = 'GET') => {
     return new Promise((resolve, reject) => {
         wx.request({
             url: config.vercelHost + url,
