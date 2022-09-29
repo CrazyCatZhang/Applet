@@ -1,21 +1,45 @@
+import request from "../../utils/request";
+
 let startY = 0;//手指起始坐标
 let moveY = 0;//手指移动坐标
 let moveDistance = 0;//手指移动距离
 
 Page({
+
     data: {
         coverTransform: 'translateY(0)',
-        coverTransition: ''
+        coverTransition: '',
+        userInfo: {},
+        recentPlayList: []
     },
-    onLoad: function (options) {
 
+    onLoad: async function (options) {
+        const userInfo = JSON.parse(wx.getStorageSync('userInfo'))
+        this.setData({
+            userInfo
+        })
+        this.getUserRecentList(this.data.userInfo.userId)
     },
+
+    async getUserRecentList(uid) {
+        const recentPlayListData = await request('/user/record', {uid, type: 0})
+        let index = 0;
+        let recentPlayList = recentPlayListData.allData.splice(0, 10).map(item => {
+            item.id = index++;
+            return item;
+        })
+        this.setData({
+            recentPlayList: recentPlayList
+        })
+    },
+
     handleTouchStart(event) {
         this.setData({
             coverTransition: ''
         })
         startY = event.touches[0].clientY
     },
+
     handleTouchMove(event) {
         moveY = event.touches[0].clientY;
         moveDistance = moveY - startY;
@@ -31,10 +55,16 @@ Page({
             coverTransform: 'translateY(' + moveDistance + 'rpx)'
         })
     },
+
     handleTouchEnd() {
         this.setData({
             coverTransform: 'translateY(0)',
             coverTransition: 'transform 0.5s linear'
         })
-    }
+    },
+    toLogin() {
+        wx.navigateTo({
+            url: '/pages/login/login',
+        })
+    },
 });

@@ -62,7 +62,7 @@ Page({
         })
         this.timer()
 
-        await request('/captcha/sent', {phone})
+        const result = await request('/captcha/sent', {phone})
     },
 
     async login() {
@@ -84,15 +84,29 @@ Page({
             return
         }
 
-        const result = await request('/captcha/verify', {phone, captcha})
+        const result = await request('/captcha/verify', {phone, captcha}, "POST")
         if (result.code === 200) {
             const loginResult = await request('/login/cellphone', {phone, captcha})
+            console.log(loginResult)
             if (loginResult.code === 200) {
                 wx.showToast({
                     title: '登陆成功',
                 })
-
+                wx.setStorageSync('userInfo', JSON.stringify(loginResult.profile))
+                wx.reLaunch({
+                    url: '/pages/personal/personal'
+                })
             }
+        } else if (result.code === 503) {
+            wx.showToast({
+                title: '验证码错误',
+                icon: 'none'
+            })
+        } else {
+            wx.showToast({
+                title: '今日验证码次数已用完',
+                icon: 'none'
+            })
         }
     },
 

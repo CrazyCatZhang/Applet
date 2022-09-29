@@ -3,7 +3,7 @@ import config from './config.js'
 export default (url, data = {}, method = 'GET') => {
     return new Promise((resolve, reject) => {
         wx.request({
-            url: config.vercelHost + url,
+            url: config.host + url,
             data,
             method,
             success(res) {
