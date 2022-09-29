@@ -1,9 +1,9 @@
 {
   "pages": [
+    "pages/podcast/podcast",
     "pages/personal/personal",
     "pages/login/login",
-    "pages/index/index",
-    "pages/podcast/podcast"
+    "pages/index/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#d43c33",

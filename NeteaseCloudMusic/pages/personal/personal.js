@@ -10,13 +10,15 @@ Page({
         coverTransform: 'translateY(0)',
         coverTransition: '',
         userInfo: {},
-        recentPlayList: []
+        recentPlayList: [],
+        isLogin: false
     },
 
     onLoad: async function (options) {
         const userInfo = JSON.parse(wx.getStorageSync('userInfo'))
         this.setData({
-            userInfo
+            userInfo,
+            isLogin: true
         })
         this.getUserRecentList(this.data.userInfo.userId)
     },
@@ -67,4 +69,21 @@ Page({
             url: '/pages/login/login',
         })
     },
+    async toLogout() {
+        const status = await request('/logout')
+        if (status.code === 200) {
+            wx.removeStorageSync('userInfo')
+            this.setData({
+                userInfo: {},
+                isLogin: false
+            })
+            wx.navigateTo({
+                url: '/pages/login/login',
+            })
+            wx.showToast({
+                title: '退出登录',
+                icon: 'success'
+            })
+        }
+    }
 });
