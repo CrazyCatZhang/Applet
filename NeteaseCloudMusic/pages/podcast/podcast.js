@@ -3,6 +3,7 @@ import request from "../../utils/request";
 Page({
     data: {
         videoGroupList: [],
+        videoList: [],
         navId: ''
     },
     onLoad: function (options) {
@@ -23,13 +24,31 @@ Page({
             return
         }
         const videoListData = await request('/video/group', {id})
-        this.setData({videoList: videoListData.datas})
+        if (videoListData.datas.length === 0) {
+            wx.showToast({
+                title: '暂无推荐视频',
+                icon: 'none'
+            })
+            return;
+        }
+        wx.hideLoading()
+        let index = 0
+        let videoList = videoListData.datas.map(item => {
+            item.id = index++;
+            return item;
+        })
+        this.setData({videoList})
     },
 
     changeNav(event) {
         const navId = event.target.id >>> 0
         this.setData({
-            navId
+            navId,
+            videoList: []
         })
+        wx.showLoading({
+            title: '正在加载',
+        })
+        this.getVideoList(navId)
     }
 });
