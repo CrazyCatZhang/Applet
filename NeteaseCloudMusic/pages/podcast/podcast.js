@@ -6,7 +6,8 @@ Page({
         videoList: [],
         navId: '',
         videoId: '',
-        videoUrl: ''
+        videoUrl: '',
+        videoUpdateTime: []
     },
     onLoad: function (options) {
         this.getVideoGroupList()
@@ -65,10 +66,37 @@ Page({
             videoId: vid
         })
         this.videoContext = wx.createVideoContext(vid)
+        let {videoUpdateTime} = this.data
+        let videoItem = videoUpdateTime.find(item => item.vid === vid)
+        if (videoItem) {
+            this.videoContext.seek(videoItem.currentTime);
+        }
     },
 
     async getVideoUrl(vid) {
         const urlData = await request('/video/url', {id: vid})
         return urlData.urls[0].url
+    },
+
+    handleTimeUpdate(event) {
+        let videoTimeObj = {vid: event.currentTarget.id, currentTime: event.detail.currentTime}
+        let {videoUpdateTime} = this.data
+        let videoItem = videoUpdateTime.find(item => item.vid === videoTimeObj.vid)
+        if (videoItem) {
+            videoItem.currentTime = videoTimeObj.currentTime
+        } else {
+            videoUpdateTime.push(videoTimeObj)
+        }
+
+        this.setData({
+            videoUpdateTime
+        })
+    },
+
+    handleEnded(event) {
+        let {videoUpdateTime} = this.data
+        this.setData({
+            videoUpdateTime: videoUpdateTime.filter(item => item.vid !== event.currentTarget.id)
+        })
     }
 });
