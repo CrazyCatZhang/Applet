@@ -67,6 +67,7 @@ Page({
 
     async login() {
         const {phone, captcha} = this.data
+        const time = new Date().getTime()
         if (!phone) {
             wx.showToast({
                 title: '手机号不能为空',
@@ -86,7 +87,7 @@ Page({
 
         const result = await request('/captcha/verify', {phone, captcha}, "POST")
         if (result.code === 200) {
-            const loginResult = await request('/login/cellphone', {phone, captcha, isLogin: true})
+            const loginResult = await request('/login/cellphone', {phone, captcha, time, isLogin: true})
             if (loginResult.code === 200) {
                 wx.showToast({
                     title: '登陆成功',
