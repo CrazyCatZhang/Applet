@@ -24,7 +24,7 @@
     >
         <view class="videoItem" wx:for="{{videoList}}" wx:key="id">
             <video
-                    src="{{item.data.urlInfo.url}}"
+                    src="{{videoUrl}}"
                     bindplay="handlePlay"
                     id="{{item.data.vid}}"
                     poster="{{item.data.coverUrl}}"

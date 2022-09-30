@@ -6,6 +6,7 @@ Page({
         videoList: [],
         navId: '',
         videoId: '',
+        videoUrl: ''
     },
     onLoad: function (options) {
         this.getVideoGroupList()
@@ -55,9 +56,19 @@ Page({
 
     handlePlay(event) {
         let vid = event.currentTarget.id
+        this.getVideoUrl(vid).then(url => {
+            this.setData({
+                videoUrl: url
+            })
+        })
         this.setData({
             videoId: vid
         })
         this.videoContext = wx.createVideoContext(vid)
+    },
+
+    async getVideoUrl(vid) {
+        const urlData = await request('/video/url', {id: vid})
+        return urlData.urls[0].url
     }
 });
