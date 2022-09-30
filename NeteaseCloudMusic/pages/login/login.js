@@ -87,7 +87,12 @@ Page({
 
         const result = await request('/captcha/verify', {phone, captcha}, "POST")
         if (result.code === 200) {
-            const loginResult = await request('/login/cellphone', {phone, captcha, time, isLogin: true})
+            const loginResult = await request(`/login/cellphone`, {
+                time,
+                phone,
+                captcha,
+                isLogin: true
+            })
             if (loginResult.code === 200) {
                 wx.showToast({
                     title: '登陆成功',

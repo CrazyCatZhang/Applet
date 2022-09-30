@@ -14,7 +14,7 @@ Page({
         isLogin: false
     },
 
-    onLoad: async function (options) {
+    onLoad: function (options) {
         const userInfo = JSON.parse(wx.getStorageSync('userInfo'))
         this.setData({
             userInfo,
