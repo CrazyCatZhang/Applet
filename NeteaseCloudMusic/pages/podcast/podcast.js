@@ -4,7 +4,8 @@ Page({
     data: {
         videoGroupList: [],
         videoList: [],
-        navId: ''
+        navId: '',
+        videoId: '',
     },
     onLoad: function (options) {
         this.getVideoGroupList()
@@ -54,7 +55,9 @@ Page({
 
     handlePlay(event) {
         let vid = event.currentTarget.id
-        this.vid !== vid && this.videoContext && this.videoContext.stop()
+        this.setData({
+            videoId: vid
+        })
         this.videoContext = wx.createVideoContext(vid)
     }
 });
