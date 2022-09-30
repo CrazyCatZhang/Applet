@@ -50,5 +50,11 @@ Page({
             title: '正在加载',
         })
         this.getVideoList(navId)
+    },
+
+    handlePlay(event) {
+        let vid = event.currentTarget.id
+        this.vid !== vid && this.videoContext && this.videoContext.stop()
+        this.videoContext = wx.createVideoContext(vid)
     }
 });
