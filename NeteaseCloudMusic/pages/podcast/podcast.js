@@ -112,5 +112,11 @@ Page({
 
     handleToLower() {
         this.getVideoList(this.data.navId, 8)
+    },
+
+    onShareAppMessage: function ({from}) {
+        return {
+            title: '来自CatZhang云音乐的转发'
+        }
     }
 });
