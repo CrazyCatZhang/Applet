@@ -23,12 +23,12 @@ Page({
         this.getVideoList(this.data.navId)
     },
 
-    async getVideoList(id) {
+    async getVideoList(id, offset = 0) {
         const time = new Date().getTime()
         if (!id) {
             return
         }
-        const videoListData = await request('/video/group', {time, id})
+        const videoListData = await request('/video/group', {time, id, offset})
         if (videoListData.datas.length === 0) {
             wx.showToast({
                 title: '暂无推荐视频',
@@ -42,7 +42,11 @@ Page({
             item.id = index++;
             return item;
         })
-        this.setData({videoList, isTriggered: false})
+
+        this.setData({
+            videoList: offset ? [...this.data.videoList, ...videoList] : videoList,
+            isTriggered: false
+        })
     },
 
     changeNav(event) {
@@ -104,5 +108,9 @@ Page({
 
     handleRefresher(event) {
         this.getVideoList(this.data.navId)
+    },
+
+    handleToLower() {
+        this.getVideoList(this.data.navId, 8)
     }
 });

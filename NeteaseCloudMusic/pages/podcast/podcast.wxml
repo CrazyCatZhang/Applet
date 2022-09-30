@@ -20,6 +20,7 @@
             class="videoScroll"
             refresher-enabled="true"
             bindrefresherrefresh="handleRefresher"
+            bindscrolltolower="handleToLower"
             refresher-triggered="{{isTriggered}}"
     >
         <view class="videoItem" wx:for="{{videoList}}" wx:key="id">
