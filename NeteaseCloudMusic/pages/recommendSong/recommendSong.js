@@ -5,7 +5,8 @@ Page({
         year: '',
         month: '',
         day: '',
-        recommendList: []
+        recommendList: [],
+        index: 0
     },
     onLoad: function (options) {
         let userInfo = wx.getStorageSync('userInfo')
@@ -34,12 +35,20 @@ Page({
     },
 
     async getRecommendList() {
-        let recommendListData = await request('/recommend/resource')
-
+        let recommendListData = await request('/recommend/songs')
 
         this.setData({
-            recommendList: recommendListData.recommend
+            recommendList: recommendListData.data.dailySongs
         })
-
     },
+
+    toSongDetail(event) {
+        const {song, index} = event.currentTarget.dataset
+        this.setData({
+            index
+        })
+        wx.navigateTo({
+            url: '/pages/songDetail/songDetail?song=' + song.al.id
+        })
+    }
 });
