@@ -48,7 +48,7 @@ Page({
             index
         })
         wx.navigateTo({
-            url: '/pages/songDetail/songDetail?song=' + song.al.id
+            url: '/pages/songDetail/songDetail?song=' + song.id
         })
     }
 });
