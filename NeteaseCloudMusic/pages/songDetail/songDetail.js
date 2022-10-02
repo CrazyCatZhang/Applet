@@ -65,21 +65,21 @@ Page({
     },
 
     async musicControl(isPlay, musicId) {
-        const backgroundAudioManager = wx.getBackgroundAudioManager()
         if (isPlay) {
             let musicLinkData = await request('/song/url', {id: musicId})
             let musicLink = musicLinkData.data[0].url
-            backgroundAudioManager.src = musicLink
-            backgroundAudioManager.title = this.data.song.name
+            this.backgroundAudioManager.src = musicLink
+            this.backgroundAudioManager.title = this.data.song.name
         } else {
-            backgroundAudioManager.pause()
+            this.backgroundAudioManager.pause()
         }
     },
 
     handleSwitch(event) {
         const type = event.currentTarget.id
         PubSub.subscribe('musicId', (msg, musicId) => {
-            console.log(musicId)
+            this.getMusicInfo(musicId)
+            this.musicControl(true, musicId)
             PubSub.unsubscribe('musicId')
         })
         PubSub.publish('switchType', type)
