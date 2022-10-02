@@ -1,5 +1,6 @@
 import request from "../../utils/request";
 import moment from "moment";
+import PubSub from 'pubsub-js'
 
 const appInstance = getApp()
 Page({
@@ -17,7 +18,7 @@ Page({
         })
         this.getMusicInfo(musicId)
 
-        if(appInstance.globalData.isMusicPlay && appInstance.globalData.musicId === musicId){
+        if (appInstance.globalData.isMusicPlay && appInstance.globalData.musicId === musicId) {
             //修改当前页面音乐播放状态
             this.setData({
                 isPlay: true
@@ -73,5 +74,14 @@ Page({
         } else {
             backgroundAudioManager.pause()
         }
+    },
+
+    handleSwitch(event) {
+        const type = event.currentTarget.id
+        PubSub.subscribe('musicId', (msg, musicId) => {
+            console.log(musicId)
+            PubSub.unsubscribe('musicId')
+        })
+        PubSub.publish('switchType', type)
     }
 });

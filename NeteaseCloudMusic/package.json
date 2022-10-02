@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "moment": "^2.29.4"
+    "moment": "^2.29.4",
+    "pubsub-js": "^1.9.4"
   }
 }
