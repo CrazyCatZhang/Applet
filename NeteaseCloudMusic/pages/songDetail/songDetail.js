@@ -1,6 +1,7 @@
 import request from "../../utils/request";
 import moment from "moment";
 
+const appInstance = getApp()
 Page({
     data: {
         isPlay: false,
@@ -15,15 +16,23 @@ Page({
             musicId
         })
         this.getMusicInfo(musicId)
+
+        if(appInstance.globalData.isMusicPlay && appInstance.globalData.musicId === musicId){
+            //修改当前页面音乐播放状态
+            this.setData({
+                isPlay: true
+            })
+        }
         this.backgroundAudioManager = wx.getBackgroundAudioManager()
         this.backgroundAudioManager.onPlay(() => {
-            this.changePlayState(true);
+            this.changePlayState(true)
+            appInstance.globalData.musicId = musicId
         })
         this.backgroundAudioManager.onPause(() => {
-            this.changePlayState(false);
+            this.changePlayState(false)
         })
         this.backgroundAudioManager.onStop(() => {
-            this.changePlayState(false);
+            this.changePlayState(false)
         })
     },
 
@@ -31,6 +40,7 @@ Page({
         this.setData({
             isPlay
         })
+        appInstance.globalData.isMusicPlay = isPlay
     },
 
     async getMusicInfo(musicId) {
