@@ -1,5 +1,5 @@
 import request from "../../utils/request";
-import moment, {duration} from "moment";
+import moment from "moment";
 
 Page({
     data: {
@@ -15,6 +15,22 @@ Page({
             musicId
         })
         this.getMusicInfo(musicId)
+        this.backgroundAudioManager = wx.getBackgroundAudioManager()
+        this.backgroundAudioManager.onPlay(() => {
+            this.changePlayState(true);
+        })
+        this.backgroundAudioManager.onPause(() => {
+            this.changePlayState(false);
+        })
+        this.backgroundAudioManager.onStop(() => {
+            this.changePlayState(false);
+        })
+    },
+
+    changePlayState(isPlay) {
+        this.setData({
+            isPlay
+        })
     },
 
     async getMusicInfo(musicId) {
@@ -27,5 +43,25 @@ Page({
         wx.setNavigationBarTitle({
             title: this.data.song.name
         })
+    },
+
+    handleMusicPlay() {
+        let isPlay = !this.data.isPlay
+        this.setData({
+            isPlay
+        })
+        this.musicControl(isPlay, this.data.musicId)
+    },
+
+    async musicControl(isPlay, musicId) {
+        const backgroundAudioManager = wx.getBackgroundAudioManager()
+        if (isPlay) {
+            let musicLinkData = await request('/song/url', {id: musicId})
+            let musicLink = musicLinkData.data[0].url
+            backgroundAudioManager.src = musicLink
+            backgroundAudioManager.title = this.data.song.name
+        } else {
+            backgroundAudioManager.pause()
+        }
     }
 });
