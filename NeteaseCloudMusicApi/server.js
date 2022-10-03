@@ -9,6 +9,7 @@ const {cookieToJson} = require('./util/index')
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
 const axios = require("axios");
+const jwt = require('jsonwebtoken')
 
 /**
  * The version check result.
@@ -196,8 +197,13 @@ async function consturctServer(moduleDefs) {
     let url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code`
     let result = await axios.get(url)
     let openId = result.data.openid
-
-    res.send('测试数据')
+    let person = {
+      username: 'CatZhang',
+      age: 25,
+      openId
+    }
+    let token = jwt.sign(person, 'CatZhang')
+    res.send(token)
   })
 
   /**
