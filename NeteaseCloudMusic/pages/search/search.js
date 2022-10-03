@@ -1,9 +1,13 @@
 import request from "../../utils/request";
+import '../../utils/lodash-fix'
+import _ from '../../utils/lodash'
 
 Page({
     data: {
         placeholderContent: '',
-        hotList: []
+        hotList: [],
+        searchContent: '',
+        searchList: []
     },
     onLoad: function (options) {
         this.getInitData()
@@ -16,5 +20,17 @@ Page({
             placeholderContent: placeholderData.data.showKeyword,
             hotList: hotListData.data
         })
-    }
+    },
+
+    handleInputChange: _.debounce(async function (event) {
+        const searchContent = event.detail.value.trim()
+        this.setData({
+            searchContent
+        })
+
+        const searchListData = await request('/search', {keywords: searchContent, limit: 10})
+        this.setData({
+            searchList: searchListData.result.songs
+        })
+    }, 500)
 });
