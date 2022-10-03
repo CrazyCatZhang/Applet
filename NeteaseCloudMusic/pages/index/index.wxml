@@ -1,4 +1,11 @@
 <view>
+    <view class="header">
+        <image src="/static/images/video/video.jpg"></image>
+        <view class="search" bindtap="toSearch">
+            搜索歌曲
+        </view>
+        <image src="/static/images/logo.png"></image>
+    </view>
     <swiper class="banners" indicator-dots="true" indicator-color="ivory" indicator-active-color="#d43c33" autoplay
             interval="3000">
         <swiper-item wx:for="{{bannerList}}" wx:key="targetId">

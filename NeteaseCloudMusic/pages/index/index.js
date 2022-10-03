@@ -32,5 +32,11 @@ Page({
         wx.navigateTo({
             url: '/pages/recommendSong/recommendSong',
         })
-    }
+    },
+
+    toSearch() {
+        wx.navigateTo({
+            url: '/pages/search/search',
+        })
+    },
 });
