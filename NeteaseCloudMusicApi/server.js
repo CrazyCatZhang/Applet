@@ -8,6 +8,7 @@ const cache = require('./util/apicache').middleware
 const {cookieToJson} = require('./util/index')
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
+const axios = require("axios");
 
 /**
  * The version check result.
@@ -188,11 +189,15 @@ async function consturctServer(moduleDefs) {
   /**
    * Get OpenId
    */
-  app.use('/getOpenId', (req, res, next) => {
+  app.use('/getOpenId', async (req, res, next) => {
     let code = req.query.code
     let appId = 'wx95fa30fff9bf01e0'
     let appSecret = '7ad49ad2caca4ec83432c7a03e98a748'
     let url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code`
+    let result = await axios.get(url)
+    let openId = result.data.openid
+
+    res.send('测试数据')
   })
 
   /**
