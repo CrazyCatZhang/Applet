@@ -8,6 +8,7 @@ Page({
         isPlay: false,
         song: {},
         musicId: '',
+        musicLink: '',
         currentTime: '00:00',
         durationTime: '00:00'
     },
@@ -61,14 +62,20 @@ Page({
         this.setData({
             isPlay
         })
-        this.musicControl(isPlay, this.data.musicId)
+        const {musicId, musicLink} = this.data
+        this.musicControl(isPlay, musicId, musicLink)
     },
 
-    async musicControl(isPlay, musicId) {
+    async musicControl(isPlay, musicId, musicLink) {
         if (isPlay) {
-            let musicLinkData = await request('/song/url', {id: musicId})
-            let musicLink = musicLinkData.data[0].url
-            this.backgroundAudioManager.src = musicLink
+            if (!musicLink) {
+                let musicLinkData = await request('/song/url', {id: musicId})
+                let musicLink = musicLinkData.data[0].url
+                this.setData({
+                    musicLink
+                })
+            }
+            this.backgroundAudioManager.src = this.data.musicLink
             this.backgroundAudioManager.title = this.data.song.name
         } else {
             this.backgroundAudioManager.pause()
