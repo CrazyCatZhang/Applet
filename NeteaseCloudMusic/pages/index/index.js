@@ -26,5 +26,11 @@ Page({
         this.setData({
             topList: resultArr
         })
+    },
+
+    toRecommendSong() {
+        wx.navigateTo({
+            url: '/pages/recommendSong/recommendSong',
+        })
     }
 });

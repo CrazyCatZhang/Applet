@@ -1,5 +1,6 @@
 <view>
-    <swiper class="banners" indicator-dots="true" indicator-color="ivory" indicator-active-color="#d43c33" autoplay interval="3000">
+    <swiper class="banners" indicator-dots="true" indicator-color="ivory" indicator-active-color="#d43c33" autoplay
+            interval="3000">
         <swiper-item wx:for="{{bannerList}}" wx:key="targetId">
             <image src="{{item.imageUrl}}"></image>
         </swiper-item>
@@ -7,7 +8,7 @@
 
     <view class="navContainer">
         <view class="navItem">
-            <text class="iconfont icon-tuijian"></text>
+            <text class="iconfont icon-tuijian" bindtap="toRecommendSong"></text>
             <text>每日推荐</text>
         </view>
         <view class="navItem">
