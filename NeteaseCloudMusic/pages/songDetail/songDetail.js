@@ -40,6 +40,14 @@ Page({
         this.backgroundAudioManager.onTimeUpdate(() => {
             this.musicPlayTime()
         })
+        this.backgroundAudioManager.onEnded(() => {
+            PubSub.subscribe('musicId', (msg, musicId) => {
+                this.getMusicInfo(musicId)
+                this.musicControl(true, musicId)
+                PubSub.unsubscribe('musicId')
+            })
+            PubSub.publish('switchType', 'next')
+        })
     },
 
     musicPlayTime() {
