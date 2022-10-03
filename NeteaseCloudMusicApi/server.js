@@ -5,7 +5,7 @@ const request = require('./util/request')
 const packageJSON = require('./package.json')
 const exec = require('child_process').exec
 const cache = require('./util/apicache').middleware
-const { cookieToJson } = require('./util/index')
+const {cookieToJson} = require('./util/index')
 const fileUpload = require('express-fileupload')
 const decode = require('safe-decode-uri-component')
 
@@ -82,7 +82,7 @@ async function getModulesDefinitions(
       const modulePath = path.join(modulesPath, file)
       const module = doRequire ? require(modulePath) : modulePath
 
-      return { identifier, route, module }
+      return {identifier, route, module}
     })
 
   return modules
@@ -171,7 +171,7 @@ async function consturctServer(moduleDefs) {
    * Body Parser and File Upload
    */
   app.use(express.json())
-  app.use(express.urlencoded({ extended: false }))
+  app.use(express.urlencoded({extended: false}))
 
   app.use(fileUpload())
 
@@ -184,6 +184,16 @@ async function consturctServer(moduleDefs) {
    * Cache
    */
   app.use(cache('2 minutes', (_, res) => res.statusCode === 200))
+
+  /**
+   * Get OpenId
+   */
+  app.use('/getOpenId', (req, res, next) => {
+    let code = req.query.code
+    let appId = 'wx95fa30fff9bf01e0'
+    let appSecret = '7ad49ad2caca4ec83432c7a03e98a748'
+    let url = `https://api.weixin.qq.com/sns/jscode2session?appid=${appId}&secret=${appSecret}&js_code=${code}&grant_type=authorization_code`
+  })
 
   /**
    * Special Routers
@@ -212,7 +222,7 @@ async function consturctServer(moduleDefs) {
 
       let query = Object.assign(
         {},
-        { cookie: req.cookies },
+        {cookie: req.cookies},
         req.query,
         req.body,
         req.files,
@@ -286,7 +296,7 @@ async function serveNcmApi(options) {
 
   const checkVersionSubmission =
     options.checkVersion &&
-    checkVersion().then(({ npmVersion, ourVersion, status }) => {
+    checkVersion().then(({npmVersion, ourVersion, status}) => {
       if (status == VERSION_CHECK_RESULT.NOT_LATEST) {
         console.log(
           `最新版本: ${npmVersion}, 当前版本: ${ourVersion}, 请及时更新`,

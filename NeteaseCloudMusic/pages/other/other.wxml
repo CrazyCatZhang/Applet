@@ -1,0 +1,4 @@
+<!--pages/other.wxml-->
+<view>
+    <button bindtap="handleGetOpenId">获取openid</button>
+</view>
