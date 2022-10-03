@@ -22,15 +22,24 @@ Page({
         })
     },
 
-    handleInputChange: _.debounce(async function (event) {
+    handleInputChange: _.debounce(function (event) {
         const searchContent = event.detail.value.trim()
         this.setData({
             searchContent
         })
+        this.getSearchList(searchContent)
+    }, 500),
 
+    async getSearchList(searchContent) {
+        if (!searchContent) {
+            this.setData({
+                searchList: []
+            })
+            return
+        }
         const searchListData = await request('/search', {keywords: searchContent, limit: 10})
         this.setData({
             searchList: searchListData.result.songs
         })
-    }, 500)
+    }
 });
