@@ -7,10 +7,21 @@ Page({
         placeholderContent: '',
         hotList: [],
         searchContent: '',
-        searchList: []
+        searchList: [],
+        historyList: []
     },
     onLoad: function (options) {
         this.getInitData()
+        this.getSearchHistory()
+    },
+
+    getSearchHistory(){
+        let historyList =  wx.getStorageSync('searchHistory');
+        if(historyList){
+            this.setData({
+                historyList
+            })
+        }
     },
 
     async getInitData() {
@@ -27,10 +38,12 @@ Page({
         this.setData({
             searchContent
         })
-        this.getSearchList(searchContent)
+        this.getSearchList()
     }, 500),
 
-    async getSearchList(searchContent) {
+    async getSearchList() {
+        const {searchContent, historyList} = this.data
+
         if (!searchContent) {
             this.setData({
                 searchList: []
@@ -41,5 +54,14 @@ Page({
         this.setData({
             searchList: searchListData.result.songs
         })
+
+        if (historyList.indexOf(searchContent) !== -1) {
+            historyList.splice(historyList.indexOf(searchContent), 1)
+        }
+        historyList.unshift(searchContent)
+        this.setData({
+            historyList
+        })
+        wx.setStorageSync('searchHistory', historyList)
     }
 });
