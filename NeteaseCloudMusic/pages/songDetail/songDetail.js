@@ -70,12 +70,12 @@ Page({
         if (isPlay) {
             if (!musicLink) {
                 let musicLinkData = await request('/song/url', {id: musicId})
-                let musicLink = musicLinkData.data[0].url
+                musicLink = musicLinkData.data[0].url
                 this.setData({
                     musicLink
                 })
             }
-            this.backgroundAudioManager.src = this.data.musicLink
+            this.backgroundAudioManager.src = musicLink
             this.backgroundAudioManager.title = this.data.song.name
         } else {
             this.backgroundAudioManager.pause()
