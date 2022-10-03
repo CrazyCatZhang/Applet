@@ -15,9 +15,9 @@ Page({
         this.getSearchHistory()
     },
 
-    getSearchHistory(){
-        let historyList =  wx.getStorageSync('searchHistory');
-        if(historyList){
+    getSearchHistory() {
+        let historyList = wx.getStorageSync('searchHistory');
+        if (historyList) {
             this.setData({
                 historyList
             })
@@ -63,5 +63,19 @@ Page({
             historyList
         })
         wx.setStorageSync('searchHistory', historyList)
-    }
+    },
+
+    handleDelete() {
+        wx.showModal({
+            content: '确认清空记录吗?',
+            success: (res) => {
+                if (res.confirm) {
+                    this.setData({
+                        historyList: []
+                    })
+                    wx.removeStorageSync('searchHistory');
+                }
+            }
+        })
+    },
 });
