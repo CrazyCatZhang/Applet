@@ -10,7 +10,8 @@ Page({
         musicId: '',
         musicLink: '',
         currentTime: '00:00',
-        durationTime: '00:00'
+        durationTime: '00:00',
+        currentWidth: '',
     },
     onLoad: function (options) {
         const musicId = options.song
@@ -35,6 +36,18 @@ Page({
         })
         this.backgroundAudioManager.onStop(() => {
             this.changePlayState(false)
+        })
+        this.backgroundAudioManager.onTimeUpdate(() => {
+            this.musicPlayTime()
+        })
+    },
+
+    musicPlayTime() {
+        let currentTime = moment(this.backgroundAudioManager.currentTime * 1000).format('mm:ss')
+        let currentWidth = (this.backgroundAudioManager.currentTime / this.backgroundAudioManager.duration) * 450
+        this.setData({
+            currentTime,
+            currentWidth
         })
     },
 
